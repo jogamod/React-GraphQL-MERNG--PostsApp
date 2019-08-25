@@ -9,17 +9,23 @@ import Register from './pages/Register';
 import { Container } from 'semantic-ui-react';
 import MenuBar from './components/MenuBar';
 
+import { AuthProvider } from './context/auth'
+import AuthRoute from './util/AuthRouter'
+
 class App extends Component {
   render() {
     return (
-     <Router>
-       <Container>
-        <MenuBar />
-        <Route exact path="/" component={Home} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/register" component={Register} />
-       </Container>
-     </Router>
+      <AuthProvider>
+        <Router>
+          <Container>
+            <MenuBar />
+            <Route exact path="/" component={Home} />
+            <AuthRoute exact path="/login" component={Login} />
+            <AuthRoute exact path="/register" component={Register} />
+          </Container>
+        </Router>
+      </AuthProvider>
+     
     );
   }
 }
