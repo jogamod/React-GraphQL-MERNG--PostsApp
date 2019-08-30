@@ -7,14 +7,11 @@ import { useMutation } from '@apollo/react-hooks';
 
 import { AuthContext } from '../context/auth'
 import LikeButton from './LikeButton';
+import DeleteButton from './DeleteButton';
 
 export default function PostCard({post: { body, createdAt, id, username, likeCount, commentCount, likes}}) {
     const { user } = useContext(AuthContext)
 
-    const handleDeletePost = () => {
-        console.log("deleted")
-    }
-    
     function commentOnPost(){
         console.log("comment")
     }
@@ -40,9 +37,7 @@ export default function PostCard({post: { body, createdAt, id, username, likeCou
                 </Label>
             </Button>
             {user && user.username === username && (
-                <Button as="div" floated="right" color="red" onClick={handleDeletePost}>
-                    <Icon name="trash" style={{margin: 0}}/>
-                </Button>
+                <DeleteButton post={{id}}/>
             )}
         </Card.Content>
       </Card>
