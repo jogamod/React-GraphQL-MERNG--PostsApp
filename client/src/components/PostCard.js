@@ -1,14 +1,18 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { Card, Button, Image, Icon, Label } from 'semantic-ui-react';
 import moment from 'moment'
 import { Link } from 'react-router-dom'
+import { FETCH_POSTS_QUERY, LIKE_POST_MUTATION } from '../util/graphql';
+import { useMutation } from '@apollo/react-hooks';
 
-
+import { AuthContext } from '../context/auth'
+import LikeButton from './LikeButton';
 
 export default function PostCard({post: { body, createdAt, id, username, likeCount, commentCount, likes}}) {
+    const { user } = useContext(AuthContext)
 
-    function likePost() {
-        console.log("liked")
+    const handleDeletePost = () => {
+        console.log("deleted")
     }
     
     function commentOnPost(){
@@ -26,15 +30,8 @@ export default function PostCard({post: { body, createdAt, id, username, likeCou
           </Card.Description>
         </Card.Content>
         <Card.Content extra>
-            <Button as='div' labelPosition='right' onClick={likePost}>
-                <Button color='teal' basic>
-                    <Icon name='heart' />
-                </Button>
-                <Label as='a' basic color='teal' pointing='left'>
-                    {likeCount}
-                </Label>
-            </Button>
-            <Button as='div' labelPosition='right' onClick={commentOnPost}>
+            <LikeButton user={user} post={{id, likes, likeCount}} />
+            <Button labelPosition='right' as={Link} to={`/post/${id}`}>
                 <Button color='blue' basic>
                     <Icon name='comments' />
                 </Button>
@@ -42,6 +39,11 @@ export default function PostCard({post: { body, createdAt, id, username, likeCou
                     {commentCount}
                 </Label>
             </Button>
+            {user && user.username === username && (
+                <Button as="div" floated="right" color="red" onClick={handleDeletePost}>
+                    <Icon name="trash" style={{margin: 0}}/>
+                </Button>
+            )}
         </Card.Content>
       </Card>
     )
