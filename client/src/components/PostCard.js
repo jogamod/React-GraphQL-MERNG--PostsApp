@@ -17,7 +17,7 @@ export default function PostCard({post: { body, createdAt, id, username, likeCou
         <Card fluid>
         <Card.Content>
           <Image floated='right' size='mini' src='https://react.semantic-ui.com/images/avatar/large/molly.png' />
-          <Card.Header>Molly Thomas</Card.Header>
+          <Card.Header>{username}</Card.Header>
           <Card.Meta as={Link} to={`/post/${id}`}>{moment(createdAt).fromNow()}</Card.Meta>
           <Card.Description>
             {body}
