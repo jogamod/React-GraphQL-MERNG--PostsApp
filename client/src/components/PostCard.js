@@ -12,9 +12,6 @@ import DeleteButton from './DeleteButton';
 export default function PostCard({post: { body, createdAt, id, username, likeCount, commentCount, likes}}) {
     const { user } = useContext(AuthContext)
 
-    function commentOnPost(){
-        console.log("comment")
-    }
 
     return (
         <Card fluid>

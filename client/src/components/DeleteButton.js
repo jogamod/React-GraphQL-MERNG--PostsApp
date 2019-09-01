@@ -1,14 +1,17 @@
 import React, {useState} from 'react'
 import { Button, Icon, Confirm } from 'semantic-ui-react';
-import { DELETE_POST_MUTATION, FETCH_POSTS_QUERY } from '../util/graphql';
+import { DELETE_POST_MUTATION, FETCH_POSTS_QUERY, DELETE_COMMENT_MUTATION } from '../util/graphql';
 import { useMutation } from '@apollo/react-hooks';
 
-export default function DeleteButton({postId, callback}) {
-    console.log(postId)
+export default function DeleteButton({postId, commentId, callback}) {
     const [confirmOpen, setConfirmOpen] = useState(false)
 
-    const [deletePost, {error}] = useMutation(DELETE_POST_MUTATION,{
-        variables: {postId},
+    // NOTE dynamic mutation
+    const mutation = commentId ? DELETE_COMMENT_MUTATION : DELETE_POST_MUTATION
+    const variables = commentId ? {postId, commentId} : {postId}
+
+    const [deletePost, {error}] = useMutation(mutation,{
+        variables,
         update(proxy, result){
             setConfirmOpen(false)
 
@@ -43,7 +46,6 @@ export default function DeleteButton({postId, callback}) {
                 <Icon name="trash" style={{margin: 0}}/>
             </Button>
             <Confirm 
-                header="Deleting post"
                 open={confirmOpen}
                 onCancel={() => setConfirmOpen(false)}
                 onConfirm={handleDeletePost}
