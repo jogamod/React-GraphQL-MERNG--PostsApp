@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import { Container } from 'semantic-ui-react';
 import MenuBar from './components/MenuBar';
+import SinglePost from './pages/SinglePost'
 
 import { AuthProvider } from './context/auth'
 import AuthRoute from './util/AuthRouter'
@@ -22,6 +23,7 @@ class App extends Component {
             <Route exact path="/" component={Home} />
             <AuthRoute exact path="/login" component={Login} />
             <AuthRoute exact path="/register" component={Register} />
+            <Route exact path="/post/:postId" component={SinglePost} />
           </Container>
         </Router>
       </AuthProvider>
